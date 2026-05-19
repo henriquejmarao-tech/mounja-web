@@ -77,6 +77,30 @@ const FEATURES = [
     title: "Check-in diário",
     desc: "Registra como aplicou, como comeu, como se sentiu. Sem complicação.",
   },
+  {
+    img: "/screenshots/refeicao.jpeg",
+    pill: "SEM CONTAR CALORIA",
+    pillBg: "bg-pink-50",
+    pillText: "text-pink-600",
+    title: "Análise de refeição",
+    desc: "Tira uma foto, a Mounjá entende. Sem culpa, sem julgamento.",
+  },
+  {
+    img: "/screenshots/diario.jpeg",
+    pill: "PROGRESSO VISÍVEL",
+    pillBg: "bg-purple-50",
+    pillText: "text-purple-600",
+    title: "Diário visual",
+    desc: "Suas fotos viram uma linha do tempo. O progresso aparece quando você olha pra trás.",
+  },
+  {
+    img: "/screenshots/evolucao.jpeg",
+    pill: "CORPO E MENTE",
+    pillBg: "bg-orange-50",
+    pillText: "text-orange-600",
+    title: "Sua evolução",
+    desc: "Você vê os gráficos do seu corpo e da sua mente, lado a lado.",
+  },
 ];
 
 /* ── Pricing benefits ── */
@@ -193,7 +217,7 @@ export default function VendasPage() {
       {/* ── BLOCO 4 — COMO FUNCIONA ── */}
       <section className="-mx-6 bg-gray-50 px-6 py-12">
         <p className="text-sm font-semibold uppercase tracking-wider text-[#ff4d8f]">
-          03 — POR DENTRO DA MOUNJÁ
+          01 — POR DENTRO DA MOUNJÁ
         </p>
 
         <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-black">
@@ -238,7 +262,7 @@ export default function VendasPage() {
       {/* ── BLOCO 5 — PROVA SOCIAL ── */}
       <section className="py-12">
         <p className="text-sm font-semibold uppercase tracking-wider text-[#ff4d8f]">
-          04 — CONSTRUÍDA COM VOCÊ
+          02 — CONSTRUÍDA COM VOCÊ
         </p>
 
         <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-black">
@@ -272,7 +296,7 @@ export default function VendasPage() {
       {/* ── BLOCO 6 — PREÇO ── */}
       <section id="precos" className="-mx-6 bg-gray-50 px-6 py-12">
         <p className="text-center text-sm font-semibold uppercase tracking-wider text-[#ff4d8f]">
-          05 — ESCOLHA SEU PLANO
+          03 — ESCOLHA SEU PLANO
         </p>
 
         <h2 className="mt-2 text-center text-2xl font-bold leading-tight tracking-tight text-black">
@@ -379,7 +403,7 @@ export default function VendasPage() {
       {/* ── BLOCO 7 — GARANTIA ── */}
       <section className="py-12">
         <p className="text-sm font-semibold uppercase tracking-wider text-[#ff4d8f]">
-          06 — ZERO RISCO
+          04 — ZERO RISCO
         </p>
 
         <div className="mt-3 rounded-2xl border border-pink-200 bg-gradient-to-br from-pink-50 to-purple-50 p-6">
@@ -404,7 +428,7 @@ export default function VendasPage() {
       {/* ── BLOCO 8 — FAQ ── */}
       <section className="-mx-6 bg-gray-50 px-6 py-12">
         <p className="text-sm font-semibold uppercase tracking-wider text-[#ff4d8f]">
-          07 — DÚVIDAS COMUNS
+          05 — DÚVIDAS COMUNS
         </p>
 
         <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-black">
