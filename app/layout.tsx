@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ClarityScript } from "@/components/clarity";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="pt-BR" className={inter.className}>
       {/* GTM-TMPGTDNC */}
       <body className="min-h-dvh bg-gray-50">
+        <ClarityScript />
         <div className="mx-auto min-h-dvh max-w-[430px] bg-white">
           {children}
         </div>
