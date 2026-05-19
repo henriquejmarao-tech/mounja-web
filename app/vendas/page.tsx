@@ -207,7 +207,7 @@ export default function VendasPage() {
     if (!data) return null;
     const indexSpan = (
       <span
-        className="inline-block text-5xl font-black"
+        className="inline-block text-4xl font-black"
         style={{ color: data.cor }}
       >
         {data.index.toFixed(1)}
@@ -236,14 +236,14 @@ export default function VendasPage() {
   }
 
   return (
-    <div className="space-y-12 py-12">
+    <main className="mx-auto w-full max-w-[420px] px-6">
       {/* ── BLOCO 1 — HERO ── */}
-      <section className="px-6 text-center">
+      <section className="py-12 text-center">
         <span className="inline-block rounded-full bg-pink-50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#ff4d8f]">
           MOUNJÁ • SUA COMPANHEIRA NO GLP-1
         </span>
 
-        <h1 className="mt-4 text-3xl font-extrabold leading-tight tracking-tight text-black">
+        <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-black">
           {getHeadline()}
         </h1>
 
@@ -256,12 +256,12 @@ export default function VendasPage() {
       </section>
 
       {/* ── BLOCO 2 — DOR ── */}
-      <section className="-mx-6 bg-gray-50 px-6 py-10">
-        <p className="text-xs font-bold uppercase tracking-wider text-gray-400">
+      <section className="-mx-6 bg-gray-50 px-6 py-12">
+        <p className="text-sm font-semibold uppercase tracking-wider text-gray-400">
           01 — VOCÊ RECONHECE?
         </p>
 
-        <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-black">
+        <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-black">
           Esses sinais são mais comuns do que parecem
         </h2>
 
@@ -291,12 +291,12 @@ export default function VendasPage() {
       </section>
 
       {/* ── BLOCO 3 — A VIRADA ── */}
-      <section className="px-6">
-        <p className="text-xs font-bold uppercase tracking-wider text-[#ff4d8f]">
+      <section className="py-12">
+        <p className="text-sm font-semibold uppercase tracking-wider text-[#ff4d8f]">
           02 — A VIRADA
         </p>
 
-        <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-black">
+        <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-black">
           O que muda com a Mounjá no seu bolso
         </h2>
 
@@ -334,12 +334,12 @@ export default function VendasPage() {
       </section>
 
       {/* ── BLOCO 4 — COMO FUNCIONA ── */}
-      <section className="-mx-6 bg-gray-50 px-6 py-10">
-        <p className="text-xs font-bold uppercase tracking-wider text-[#ff4d8f]">
+      <section className="-mx-6 bg-gray-50 px-6 py-12">
+        <p className="text-sm font-semibold uppercase tracking-wider text-[#ff4d8f]">
           03 — POR DENTRO DA MOUNJÁ
         </p>
 
-        <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-black">
+        <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-black">
           Veja como a Mounjá funciona
         </h2>
 
@@ -356,7 +356,7 @@ export default function VendasPage() {
                 alt={f.title}
                 width={240}
                 height={480}
-                className="w-[240px] rounded-3xl border border-gray-200 shadow-xl"
+                className="mx-auto max-w-[260px] w-full rounded-3xl border border-gray-200 shadow-xl"
                 unoptimized
               />
 
@@ -379,12 +379,12 @@ export default function VendasPage() {
       </section>
 
       {/* ── BLOCO 5 — PROVA SOCIAL ── */}
-      <section className="px-6">
-        <p className="text-xs font-bold uppercase tracking-wider text-[#ff4d8f]">
+      <section className="py-12">
+        <p className="text-sm font-semibold uppercase tracking-wider text-[#ff4d8f]">
           04 — CONSTRUÍDA COM VOCÊ
         </p>
 
-        <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-black">
+        <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-black">
           Feita ao lado de mulheres reais
         </h2>
 
@@ -414,11 +414,11 @@ export default function VendasPage() {
 
       {/* ── BLOCO 6 — PREÇO ── */}
       <section id="precos" className="-mx-6 bg-gray-50 px-6 py-12">
-        <p className="text-center text-xs font-bold uppercase tracking-wider text-[#ff4d8f]">
+        <p className="text-center text-sm font-semibold uppercase tracking-wider text-[#ff4d8f]">
           05 — ESCOLHA SEU PLANO
         </p>
 
-        <h2 className="mt-2 text-center text-2xl font-extrabold tracking-tight text-black">
+        <h2 className="mt-2 text-center text-2xl font-bold leading-tight tracking-tight text-black">
           Comece agora
         </h2>
 
@@ -455,7 +455,7 @@ export default function VendasPage() {
               href="https://pay.kirvano.com/6eb4500b-44d7-436a-8644-27c578ef9fc6"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 block w-full rounded-full border-2 border-gray-900 py-4 text-center font-bold text-gray-900 transition hover:bg-gray-900 hover:text-white"
+              className="mt-6 block w-full rounded-full border-2 border-gray-900 py-4 text-center text-lg font-semibold text-gray-900 transition hover:bg-gray-900 hover:text-white"
             >
               Assinar mensal
             </a>
@@ -507,7 +507,7 @@ export default function VendasPage() {
               href="https://pay.kirvano.com/9fe83f1a-0c80-49b5-874e-b8e204c50760"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 block w-full rounded-full py-4 text-center text-lg font-bold text-white shadow-lg transition hover:shadow-xl"
+              className="mt-6 block w-full rounded-full py-4 text-center text-lg font-semibold text-white shadow-lg transition hover:shadow-xl"
               style={{
                 backgroundImage:
                   "linear-gradient(to right, #ff4d8f, #b84dff)",
@@ -520,13 +520,13 @@ export default function VendasPage() {
       </section>
 
       {/* ── BLOCO 7 — GARANTIA ── */}
-      <section className="px-6">
-        <p className="text-xs font-bold uppercase tracking-wider text-[#ff4d8f]">
+      <section className="py-12">
+        <p className="text-sm font-semibold uppercase tracking-wider text-[#ff4d8f]">
           06 — ZERO RISCO
         </p>
 
         <div className="mt-3 rounded-2xl border border-pink-200 bg-gradient-to-br from-pink-50 to-purple-50 p-6">
-          <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
+          <div className="flex flex-col items-center gap-4">
             <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white shadow-sm">
               <Shield className="h-8 w-8 text-[#ff4d8f]" strokeWidth={2} />
             </div>
@@ -546,11 +546,11 @@ export default function VendasPage() {
 
       {/* ── BLOCO 8 — FAQ ── */}
       <section className="-mx-6 bg-gray-50 px-6 py-12">
-        <p className="text-xs font-bold uppercase tracking-wider text-[#ff4d8f]">
+        <p className="text-sm font-semibold uppercase tracking-wider text-[#ff4d8f]">
           07 — DÚVIDAS COMUNS
         </p>
 
-        <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-black">
+        <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-black">
           Perguntas frequentes
         </h2>
 
@@ -587,8 +587,8 @@ export default function VendasPage() {
       </section>
 
       {/* ── BLOCO 9 — CTA FINAL ── */}
-      <section className="px-6 text-center">
-        <h2 className="text-2xl font-extrabold leading-tight tracking-tight text-gray-900">
+      <section className="py-16 text-center">
+        <h2 className="text-2xl font-bold leading-tight tracking-tight text-gray-900">
           Sua jornada com GLP-1 merece mais do que tentativa e erro.
         </h2>
 
@@ -601,7 +601,7 @@ export default function VendasPage() {
           href="https://pay.kirvano.com/9fe83f1a-0c80-49b5-874e-b8e204c50760"
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-8 block w-full rounded-full py-5 px-8 text-lg font-bold text-white shadow-xl transition hover:shadow-2xl"
+          className="mt-8 block w-full rounded-full py-4 text-lg font-semibold text-white shadow-xl transition hover:shadow-2xl"
           style={{
             backgroundImage: "linear-gradient(to right, #ff4d8f, #b84dff)",
           }}
@@ -618,7 +618,7 @@ export default function VendasPage() {
       </section>
 
       {/* ── CARD WHATSAPP ── */}
-      <section className="px-6">
+      <section>
         <a
           href="https://wa.me/551153043585?text=Oi%2C%20tenho%20uma%20d%C3%BAvida%20sobre%20a%20Mounj%C3%A1%20%F0%9F%92%9C"
           target="_blank"
@@ -642,7 +642,7 @@ export default function VendasPage() {
       </section>
 
       {/* ── RODAPÉ ── */}
-      <footer className="px-6 pb-8 pt-12 text-center">
+      <footer className="pb-8 pt-12 text-center">
         <p className="text-xs leading-relaxed text-gray-400">
           A Mounjá não substitui acompanhamento médico. Consulte sempre um
           profissional de saúde antes de tomar decisões sobre seu tratamento.
@@ -651,6 +651,6 @@ export default function VendasPage() {
           © Mounjá 2026 · Todos os direitos reservados
         </p>
       </footer>
-    </div>
+    </main>
   );
 }
