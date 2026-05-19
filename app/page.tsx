@@ -1,64 +1,56 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="flex min-h-dvh flex-col px-6 pb-6 pt-6">
+      <main className="flex flex-1 flex-col items-center justify-center text-center">
+        {/* Pílula rosa */}
+        <span className="mb-6 inline-block rounded-full bg-pink-50 px-4 py-2 text-xs font-bold tracking-wide text-[#ff4d8f]">
+          PARA QUEM USA OZEMPIC, MOUNJARO OU WEGOVY
+        </span>
+
+        {/* Headline — LCP element */}
+        <h1 className="mb-4 text-[28px] font-bold leading-tight tracking-tight">
+          <span className="block text-black">O GLP-1 age no seu corpo.</span>
+          <span
+            className="block bg-clip-text text-transparent"
+            style={{
+              backgroundImage: "linear-gradient(to right, #ff4d8f, #b84dff)",
+            }}
+          >
+            Mas sua mente está pronta para emagrecer?
+          </span>
+        </h1>
+
+        {/* Subtítulo */}
+        <p className="mb-8 max-w-[340px] text-base leading-relaxed text-gray-500">
+          O número que explica por que algumas mulheres respondem ao GLP-1 e
+          outras não.
+        </p>
+
+        {/* CTA */}
+        <a
+          href="/quiz"
+          className="mb-10 block w-full rounded-2xl py-4 text-center text-lg font-bold text-white shadow-lg transition-opacity hover:opacity-90 active:opacity-80"
+          style={{
+            backgroundImage: "linear-gradient(to right, #ff4d8f, #b84dff)",
+          }}
+        >
+          Calcular meu índice agora
+        </a>
+
+        {/* Card de credibilidade */}
+        <p className="text-sm leading-snug text-gray-300">
+          📖 Baseado em literatura científica sobre GLP-1 e comportamento
+          alimentar
+        </p>
+
+        {/* Rodapé */}
+        <footer className="mt-6 space-y-2 text-center text-xs leading-relaxed text-gray-400">
+          <p>
+            A Mounjá não substitui acompanhamento médico. Consulte sempre um
+            profissional de saúde.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+          <p>© Mounjá 2026</p>
+        </footer>
       </main>
     </div>
   );

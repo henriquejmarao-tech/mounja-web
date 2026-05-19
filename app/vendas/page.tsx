@@ -1,0 +1,632 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { Smartphone, Heart, TrendingUp, Shield } from "lucide-react";
+
+/* ── Scoring (same as /resultado) ── */
+
+const SCORES: Record<string, Record<string, number>> = {
+  quiz_q1: {
+    "Comecei há menos de 1 mês": 6,
+    "Entre 1 e 3 meses": 7,
+    "Entre 3 e 6 meses": 8,
+    "Há mais de 6 meses": 9,
+  },
+  quiz_q2: {
+    "Todo dia": 9,
+    "Algumas vezes por semana": 7,
+    Raramente: 5,
+    "Nunca faço isso": 3,
+  },
+  quiz_q3: {
+    "Melhorou bastante": 9,
+    "Melhorou um pouco": 7,
+    "Continua igual": 5,
+    "Piorou em alguns momentos": 4,
+  },
+  quiz_q4: {
+    "Sim, claramente": 9,
+    "Sim, mas são pequenas e difíceis de ver": 7,
+    "Ainda não percebi nada": 5,
+    "Tenho dúvida se algo mudou": 4,
+  },
+  quiz_q5: {
+    "Alta — estou comprometida": 9,
+    "Oscilando — tem dias melhores e piores": 7,
+    "Baixa — estou me sentindo cansada disso": 5,
+    "Muito baixa — estou pensando em desistir": 3,
+  },
+};
+
+function calcIndex(): {
+  nome: string;
+  index: number;
+  faixa: string;
+  cor: string;
+} {
+  if (typeof window === "undefined")
+    return { nome: "Amiga", index: 7.0, faixa: "media", cor: "#FF6B00" };
+
+  const leadRaw = localStorage.getItem("quiz_lead");
+  const lead = leadRaw ? JSON.parse(leadRaw) : { nome: "" };
+  const nome = lead.nome || "Amiga";
+
+  const keys = ["quiz_q1", "quiz_q2", "quiz_q3", "quiz_q4", "quiz_q5"];
+  const values = keys.map((k) => {
+    const ans = localStorage.getItem(k) ?? "";
+    return SCORES[k][ans] ?? 5;
+  });
+
+  const avg =
+    Math.round((values.reduce((a, b) => a + b, 0) / values.length) * 10) / 10;
+
+  if (avg <= 5.4) return { nome, index: avg, faixa: "baixa", cor: "#FF3B30" };
+  if (avg <= 7.4) return { nome, index: avg, faixa: "media", cor: "#FF6B00" };
+  return { nome, index: avg, faixa: "alta", cor: "#b84dff" };
+}
+
+/* ── Dor items ── */
+
+const DOR_ITEMS = [
+  "Você esquece quando aplicou a última dose",
+  "Você come e não sabe se foi fome de verdade ou hábito",
+  "Você se pesa, mas não vê o progresso real",
+  "Você sente que tá fazendo certo, mas não tem certeza",
+  "Você quer alguém pra contar como foi o dia, sem julgamento",
+];
+
+/* ── Virada cards ── */
+
+const VIRADA_CARDS = [
+  {
+    Icon: Smartphone,
+    pill: "AUTOMÁTICO",
+    pillBg: "bg-blue-50",
+    pillText: "text-blue-600",
+    title: "Tudo registrado, sem esforço",
+    desc: "Aplicação, peso, refeição, humor: tudo num só lugar.",
+  },
+  {
+    Icon: Heart,
+    pill: "SEM JULGAMENTO",
+    pillBg: "bg-pink-50",
+    pillText: "text-pink-600",
+    title: "Acolhimento, não julgamento",
+    desc: "A Mounjá entende que dias ruins existem.",
+  },
+  {
+    Icon: TrendingUp,
+    pill: "VISÍVEL",
+    pillBg: "bg-purple-50",
+    pillText: "text-purple-600",
+    title: "Sua evolução visível",
+    desc: "Seu diário visual mostra o progresso que o espelho esconde.",
+  },
+];
+
+/* ── Screenshots / Features ── */
+
+const FEATURES = [
+  {
+    img: "/screenshots/checkin.jpeg",
+    pill: "30 SEGUNDOS POR DIA",
+    pillBg: "bg-blue-50",
+    pillText: "text-blue-600",
+    title: "Check-in diário",
+    desc: "Registra como aplicou, como comeu, como se sentiu. Sem complicação.",
+  },
+  {
+    img: "/screenshots/refeicao.jpeg",
+    pill: "SEM CONTAR CALORIA",
+    pillBg: "bg-pink-50",
+    pillText: "text-pink-600",
+    title: "Análise de refeição",
+    desc: "Tira uma foto, a Mounjá entende. Sem culpa, sem julgamento.",
+  },
+  {
+    img: "/screenshots/diario.jpeg",
+    pill: "PROGRESSO VISÍVEL",
+    pillBg: "bg-purple-50",
+    pillText: "text-purple-600",
+    title: "Diário visual",
+    desc: "Suas fotos viram uma linha do tempo. O progresso aparece quando você olha pra trás.",
+  },
+  {
+    img: "/screenshots/evolucao.jpeg",
+    pill: "CORPO E MENTE",
+    pillBg: "bg-orange-50",
+    pillText: "text-orange-600",
+    title: "Sua evolução",
+    desc: "Você vê os gráficos do seu corpo e da sua mente, lado a lado.",
+  },
+];
+
+/* ── Pricing benefits ── */
+
+const MENSAL_BENEFITS = [
+  "Acesso completo ao app",
+  "Cancele quando quiser",
+  "Suporte por WhatsApp",
+];
+
+const TRIMESTRAL_BENEFITS = [
+  "Acesso completo ao app",
+  "Economia de R$ 25,00",
+  "Cancele quando quiser",
+  "Suporte prioritário no WhatsApp",
+];
+
+/* ── FAQ ── */
+
+const FAQ_ITEMS = [
+  {
+    q: "A Mounjá substitui meu médico?",
+    a: "Não. A Mounjá é uma companheira do seu tratamento, mas não substitui acompanhamento médico. Continue sempre consultando seu profissional de saúde.",
+  },
+  {
+    q: "Preciso baixar algum app?",
+    a: "Não. A Mounjá funciona direto no navegador do seu celular, como um app. Você adiciona à tela inicial e usa como se fosse um aplicativo nativo.",
+  },
+  {
+    q: "Como recebo o acesso depois de pagar?",
+    a: "Imediatamente após o pagamento, você recebe o link de acesso por email e mensagem no WhatsApp.",
+  },
+  {
+    q: "E se eu não uso Ozempic, mas sim Mounjaro ou Wegovy?",
+    a: "A Mounjá foi feita pra toda a família GLP-1. Funciona pra qualquer medicação dessa classe.",
+  },
+  {
+    q: "Posso cancelar quando quiser?",
+    a: "Sim. Sem fidelidade, sem multa. Cancele a qualquer momento direto pelo WhatsApp.",
+  },
+];
+
+/* ── Component ── */
+
+export default function VendasPage() {
+  const [data, setData] = useState<ReturnType<typeof calcIndex> | null>(null);
+  const [openFaq, setOpenFaq] = useState<Set<number>>(new Set());
+
+  useEffect(() => {
+    setData(calcIndex());
+  }, []);
+
+  function toggleFaq(i: number) {
+    setOpenFaq((prev) => {
+      const next = new Set(prev);
+      if (next.has(i)) next.delete(i);
+      else next.add(i);
+      return next;
+    });
+  }
+
+  if (!data) return null;
+
+  function getHeadline() {
+    if (!data) return null;
+    const indexSpan = (
+      <span
+        className="inline-block text-5xl font-black"
+        style={{ color: data.cor }}
+      >
+        {data.index.toFixed(1)}
+      </span>
+    );
+
+    if (data.faixa === "baixa")
+      return (
+        <>
+          {data.nome}, seu índice {indexSpan} mostra algo que muitas mulheres
+          ignoram
+        </>
+      );
+    if (data.faixa === "media")
+      return (
+        <>
+          {data.nome}, seu índice {indexSpan} revela onde está o problema
+        </>
+      );
+    return (
+      <>
+        {data.nome}, seu índice {indexSpan} mostra que você está pronta — mas
+        algo ainda falta
+      </>
+    );
+  }
+
+  return (
+    <div className="space-y-12 py-12">
+      {/* ── BLOCO 1 — HERO ── */}
+      <section className="px-6 text-center">
+        <span className="inline-block rounded-full bg-pink-50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#ff4d8f]">
+          MOUNJÁ • SUA COMPANHEIRA NO GLP-1
+        </span>
+
+        <h1 className="mt-4 text-3xl font-extrabold leading-tight tracking-tight text-black">
+          {getHeadline()}
+        </h1>
+
+        <div className="mt-5 border-l-4 border-pink-500 bg-pink-50/30 py-3 pl-4 text-left">
+          <p className="text-base italic text-gray-700">
+            O GLP-1 trata seu corpo. Mas ninguém te ensinou a cuidar da parte
+            que mais importa: a sua mente.
+          </p>
+        </div>
+      </section>
+
+      {/* ── BLOCO 2 — DOR ── */}
+      <section className="-mx-6 bg-gray-50 px-6 py-10">
+        <p className="text-xs font-bold uppercase tracking-wider text-gray-400">
+          01 — VOCÊ RECONHECE?
+        </p>
+
+        <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-black">
+          Esses sinais são mais comuns do que parecem
+        </h2>
+
+        <div className="mt-6">
+          {DOR_ITEMS.map((text, i) => (
+            <div
+              key={text}
+              className={`flex items-center gap-3 py-3 ${
+                i < DOR_ITEMS.length - 1 ? "border-b border-gray-200" : ""
+              }`}
+            >
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#ff4d8f] text-xs font-bold text-white">
+                ✓
+              </span>
+              <span className="text-sm leading-relaxed text-gray-800">
+                {text}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-6 rounded-xl border border-pink-200 bg-white p-4 text-center">
+          <p className="text-sm font-medium text-gray-800">
+            Se você marcou pelo menos 2, a Mounjá foi feita pra você.
+          </p>
+        </div>
+      </section>
+
+      {/* ── BLOCO 3 — A VIRADA ── */}
+      <section className="px-6">
+        <p className="text-xs font-bold uppercase tracking-wider text-[#ff4d8f]">
+          02 — A VIRADA
+        </p>
+
+        <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-black">
+          O que muda com a Mounjá no seu bolso
+        </h2>
+
+        <div className="mt-6 flex flex-col gap-4">
+          {VIRADA_CARDS.map((card) => (
+            <div
+              key={card.title}
+              className="rounded-2xl border border-gray-200 p-5 shadow-sm transition hover:shadow-md"
+            >
+              <div
+                className="flex h-12 w-12 items-center justify-center rounded-full"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(to bottom right, #ff4d8f, #b84dff)",
+                }}
+              >
+                <card.Icon className="h-6 w-6 text-white" strokeWidth={2} />
+              </div>
+
+              <span
+                className={`mt-4 inline-block rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider ${card.pillBg} ${card.pillText}`}
+              >
+                {card.pill}
+              </span>
+
+              <h3 className="mt-2 text-lg font-bold text-gray-900">
+                {card.title}
+              </h3>
+              <p className="mt-1 text-sm leading-relaxed text-gray-600">
+                {card.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── BLOCO 4 — COMO FUNCIONA ── */}
+      <section className="-mx-6 bg-gray-50 px-6 py-10">
+        <p className="text-xs font-bold uppercase tracking-wider text-[#ff4d8f]">
+          03 — POR DENTRO DA MOUNJÁ
+        </p>
+
+        <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-black">
+          Veja como a Mounjá funciona
+        </h2>
+
+        <p className="mt-2 text-sm text-gray-600">
+          Cada tela foi pensada pra ser usada em segundos, no meio da correria
+          do dia.
+        </p>
+
+        <div className="mt-8 flex flex-col gap-12">
+          {FEATURES.map((f) => (
+            <div key={f.title} className="flex flex-col items-center">
+              <Image
+                src={f.img}
+                alt={f.title}
+                width={240}
+                height={480}
+                className="w-[240px] rounded-3xl border border-gray-200 shadow-xl"
+                unoptimized
+              />
+
+              <span
+                className={`mt-4 inline-block rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider ${f.pillBg} ${f.pillText}`}
+              >
+                {f.pill}
+              </span>
+
+              <h3 className="mt-2 text-center text-xl font-bold text-gray-900">
+                {f.title}
+              </h3>
+
+              <p className="mt-2 mx-auto max-w-xs text-center text-sm leading-relaxed text-gray-600">
+                {f.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── BLOCO 5 — PROVA SOCIAL ── */}
+      <section className="px-6">
+        <p className="text-xs font-bold uppercase tracking-wider text-[#ff4d8f]">
+          04 — CONSTRUÍDA COM VOCÊ
+        </p>
+
+        <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-black">
+          Feita ao lado de mulheres reais
+        </h2>
+
+        <div className="mt-6 rounded-2xl border border-pink-100 bg-gradient-to-br from-pink-50 to-purple-50 p-6">
+          <svg
+            width="60"
+            height="60"
+            viewBox="0 0 60 60"
+            fill="none"
+            className="opacity-30"
+          >
+            <path
+              d="M25 30c0-5.5-4.5-10-10-10S5 24.5 5 30v10h10V30h-6c0-3.3 2.7-6 6-6s6 2.7 6 6H25zM55 30c0-5.5-4.5-10-10-10S35 24.5 35 30v10h10V30h-6c0-3.3 2.7-6 6-6s6 2.7 6 6H55z"
+              fill="#ff4d8f"
+            />
+          </svg>
+
+          <p className="mt-3 text-base font-medium leading-relaxed text-gray-700">
+            A Mounjá está sendo construída diariamente ao lado de mulheres reais
+            usando GLP-1 no Brasil. Cada feature nasce de uma conversa, cada
+            palavra é testada com quem está na jornada.
+          </p>
+
+          <p className="mt-4 text-xs text-gray-400">— Equipe Mounjá</p>
+        </div>
+      </section>
+
+      {/* ── BLOCO 6 — PREÇO ── */}
+      <section id="precos" className="-mx-6 bg-gray-50 px-6 py-12">
+        <p className="text-center text-xs font-bold uppercase tracking-wider text-[#ff4d8f]">
+          05 — ESCOLHA SEU PLANO
+        </p>
+
+        <h2 className="mt-2 text-center text-2xl font-extrabold tracking-tight text-black">
+          Comece agora
+        </h2>
+
+        <p className="mt-2 text-center text-sm text-gray-600">
+          Sem fidelidade. Cancele quando quiser.
+        </p>
+
+        <div className="mt-8 flex flex-col gap-4">
+          {/* Mensal */}
+          <div className="rounded-2xl border-2 border-gray-200 bg-white p-6">
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-500">
+              PLANO MENSAL
+            </p>
+
+            <div className="mt-3 flex items-baseline gap-1">
+              <span className="text-4xl font-extrabold text-gray-900">
+                R$ 24,99
+              </span>
+              <span className="text-base text-gray-500">/mês</span>
+            </div>
+
+            <ul className="mt-4 space-y-2">
+              {MENSAL_BENEFITS.map((b) => (
+                <li key={b} className="flex items-center gap-2 text-sm text-gray-700">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#ff4d8f] text-[10px] font-bold text-white">
+                    ✓
+                  </span>
+                  {b}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href="https://pay.kirvano.com/6eb4500b-44d7-436a-8644-27c578ef9fc6"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 block w-full rounded-full border-2 border-gray-900 py-4 text-center font-bold text-gray-900 transition hover:bg-gray-900 hover:text-white"
+            >
+              Assinar mensal
+            </a>
+          </div>
+
+          {/* Trimestral */}
+          <div className="relative rounded-2xl border-2 border-pink-500 bg-white p-6 shadow-xl">
+            <span
+              className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-xs font-extrabold uppercase tracking-wider text-white"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to right, #ff4d8f, #b84dff)",
+              }}
+            >
+              MAIS ESCOLHIDO
+            </span>
+
+            <p className="text-xs font-bold uppercase tracking-wider text-[#ff4d8f]">
+              PLANO TRIMESTRAL
+            </p>
+
+            <div className="mt-3 flex items-baseline gap-1">
+              <span className="text-4xl font-extrabold text-gray-900">
+                R$ 49,99
+              </span>
+              <span className="text-base text-gray-500">/3 meses</span>
+            </div>
+
+            <p className="mt-1 text-sm text-gray-600">
+              Equivale a R$ 16,66/mês
+            </p>
+
+            <span className="mt-2 inline-block rounded-full bg-emerald-100 px-2 py-1 text-xs font-bold text-emerald-700">
+              ECONOMIZE 33%
+            </span>
+
+            <ul className="mt-4 space-y-2">
+              {TRIMESTRAL_BENEFITS.map((b) => (
+                <li key={b} className="flex items-center gap-2 text-sm text-gray-700">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#ff4d8f] text-[10px] font-bold text-white">
+                    ✓
+                  </span>
+                  {b}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href="https://pay.kirvano.com/9fe83f1a-0c80-49b5-874e-b8e204c50760"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 block w-full rounded-full py-4 text-center text-lg font-bold text-white shadow-lg transition hover:shadow-xl"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to right, #ff4d8f, #b84dff)",
+              }}
+            >
+              Assinar trimestral
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── BLOCO 7 — GARANTIA ── */}
+      <section className="px-6">
+        <p className="text-xs font-bold uppercase tracking-wider text-[#ff4d8f]">
+          06 — ZERO RISCO
+        </p>
+
+        <div className="mt-3 rounded-2xl border border-pink-200 bg-gradient-to-br from-pink-50 to-purple-50 p-6">
+          <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white shadow-sm">
+              <Shield className="h-8 w-8 text-[#ff4d8f]" strokeWidth={2} />
+            </div>
+
+            <div>
+              <h3 className="text-lg font-extrabold text-gray-900">
+                Garantia de 14 dias
+              </h3>
+              <p className="mt-1 text-sm leading-relaxed text-gray-700">
+                Use a Mounjá por 14 dias. Se não sentir diferença, devolvemos
+                100% do seu dinheiro. Sem perguntas, sem burocracia.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── BLOCO 8 — FAQ ── */}
+      <section className="-mx-6 bg-gray-50 px-6 py-12">
+        <p className="text-xs font-bold uppercase tracking-wider text-[#ff4d8f]">
+          07 — DÚVIDAS COMUNS
+        </p>
+
+        <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-black">
+          Perguntas frequentes
+        </h2>
+
+        <div className="mt-6 flex flex-col gap-3">
+          {FAQ_ITEMS.map((item, i) => {
+            const isOpen = openFaq.has(i);
+            return (
+              <div
+                key={i}
+                className="rounded-xl border border-gray-200 bg-white p-4"
+              >
+                <button
+                  type="button"
+                  onClick={() => toggleFaq(i)}
+                  className="flex w-full items-center justify-between text-left"
+                >
+                  <span className="text-sm font-bold text-gray-900">
+                    {item.q}
+                  </span>
+                  <span className="ml-3 shrink-0 text-xl text-pink-500">
+                    {isOpen ? "−" : "+"}
+                  </span>
+                </button>
+
+                {isOpen && (
+                  <p className="mt-3 text-sm leading-relaxed text-gray-600">
+                    {item.a}
+                  </p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ── BLOCO 9 — CTA FINAL ── */}
+      <section className="px-6 text-center">
+        <h2 className="text-2xl font-extrabold leading-tight tracking-tight text-gray-900">
+          Sua jornada com GLP-1 merece mais do que tentativa e erro.
+        </h2>
+
+        <p className="mt-4 text-base leading-relaxed text-gray-600">
+          Junte-se às mulheres que estão transformando o tratamento em algo
+          gentil consigo mesmas.
+        </p>
+
+        <a
+          href="https://pay.kirvano.com/9fe83f1a-0c80-49b5-874e-b8e204c50760"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-8 block w-full rounded-full py-5 px-8 text-lg font-bold text-white shadow-xl transition hover:shadow-2xl"
+          style={{
+            backgroundImage: "linear-gradient(to right, #ff4d8f, #b84dff)",
+          }}
+        >
+          Quero começar agora →
+        </a>
+
+        <a
+          href="#precos"
+          className="mt-4 inline-block text-sm text-gray-500 underline"
+        >
+          Ver planos novamente
+        </a>
+      </section>
+
+      {/* ── RODAPÉ ── */}
+      <footer className="px-6 pb-8 pt-12 text-center">
+        <p className="text-xs leading-relaxed text-gray-400">
+          A Mounjá não substitui acompanhamento médico. Consulte sempre um
+          profissional de saúde antes de tomar decisões sobre seu tratamento.
+        </p>
+        <p className="mt-2 text-xs text-gray-400">
+          © Mounjá 2026 · Todos os direitos reservados
+        </p>
+      </footer>
+    </div>
+  );
+}

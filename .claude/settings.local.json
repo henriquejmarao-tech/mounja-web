@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx next:*)",
+      "Bash(mv 1/page.tsx \"\\(questions\\)/1/page.tsx\")",
+      "Bash(mv 2/page.tsx \"\\(questions\\)/2/page.tsx\")",
+      "Bash(mv 3/page.tsx \"\\(questions\\)/3/page.tsx\")",
+      "Bash(rmdir 1 2 3)",
+      "Bash(kill 4480)",
+      "Bash(npm run:*)",
+      "Bash(curl:*)"
+    ]
+  }
+}
