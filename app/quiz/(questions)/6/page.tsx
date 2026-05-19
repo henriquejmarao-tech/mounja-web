@@ -4,10 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 const OPTIONS = [
-  "Que me ajude a lembrar e registrar tudo",
-  "Que entenda quando eu escorrego na alimentação, sem me julgar",
-  "Que me mostre que estou evoluindo mesmo quando não percebo",
-  "Que comemore cada conquista comigo, por menor que seja",
+  "Me lembrar de tudo",
+  "Não me julgar quando eu escorregar",
+  "Mostrar que estou evoluindo",
+  "Comemorar comigo cada conquista",
 ];
 
 export default function QuizQuestion6() {
@@ -27,8 +27,7 @@ export default function QuizQuestion6() {
       </span>
 
       <h2 className="mb-8 text-2xl font-bold leading-snug tracking-tight text-black">
-        Se você tivesse uma amiga que entende tudo sobre GLP-1 e está no seu
-        bolso todo dia, o que você mais precisaria dela?
+        Se a Mounjá fosse sua amiga, o que mais te ajudaria?
       </h2>
 
       <div className="flex flex-col gap-3">
