@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Smartphone, Heart, TrendingUp, Shield } from "lucide-react";
+import { Shield } from "lucide-react";
 
 /* ── Scoring (same as /resultado) ── */
 
@@ -66,45 +66,6 @@ function calcIndex(): {
   return { nome, index: avg, faixa: "alta", cor: "#b84dff" };
 }
 
-/* ── Dor items ── */
-
-const DOR_ITEMS = [
-  "Você esquece quando aplicou a última dose",
-  "Você come e não sabe se foi fome de verdade ou hábito",
-  "Você se pesa, mas não vê o progresso real",
-  "Você sente que tá fazendo certo, mas não tem certeza",
-  "Você quer alguém pra contar como foi o dia, sem julgamento",
-];
-
-/* ── Virada cards ── */
-
-const VIRADA_CARDS = [
-  {
-    Icon: Smartphone,
-    pill: "AUTOMÁTICO",
-    pillBg: "bg-blue-50",
-    pillText: "text-blue-600",
-    title: "Tudo registrado, sem esforço",
-    desc: "Aplicação, peso, refeição, humor: tudo num só lugar.",
-  },
-  {
-    Icon: Heart,
-    pill: "SEM JULGAMENTO",
-    pillBg: "bg-pink-50",
-    pillText: "text-pink-600",
-    title: "Acolhimento, não julgamento",
-    desc: "A Mounjá entende que dias ruins existem.",
-  },
-  {
-    Icon: TrendingUp,
-    pill: "VISÍVEL",
-    pillBg: "bg-purple-50",
-    pillText: "text-purple-600",
-    title: "Sua evolução visível",
-    desc: "Seu diário visual mostra o progresso que o espelho esconde.",
-  },
-];
-
 /* ── Screenshots / Features ── */
 
 const FEATURES = [
@@ -116,44 +77,16 @@ const FEATURES = [
     title: "Check-in diário",
     desc: "Registra como aplicou, como comeu, como se sentiu. Sem complicação.",
   },
-  {
-    img: "/screenshots/refeicao.jpeg",
-    pill: "SEM CONTAR CALORIA",
-    pillBg: "bg-pink-50",
-    pillText: "text-pink-600",
-    title: "Análise de refeição",
-    desc: "Tira uma foto, a Mounjá entende. Sem culpa, sem julgamento.",
-  },
-  {
-    img: "/screenshots/diario.jpeg",
-    pill: "PROGRESSO VISÍVEL",
-    pillBg: "bg-purple-50",
-    pillText: "text-purple-600",
-    title: "Diário visual",
-    desc: "Suas fotos viram uma linha do tempo. O progresso aparece quando você olha pra trás.",
-  },
-  {
-    img: "/screenshots/evolucao.jpeg",
-    pill: "CORPO E MENTE",
-    pillBg: "bg-orange-50",
-    pillText: "text-orange-600",
-    title: "Sua evolução",
-    desc: "Você vê os gráficos do seu corpo e da sua mente, lado a lado.",
-  },
 ];
 
 /* ── Pricing benefits ── */
 
 const MENSAL_BENEFITS = [
   "Acesso completo ao app",
-  "Cancele quando quiser",
-  "Suporte por WhatsApp",
 ];
 
 const TRIMESTRAL_BENEFITS = [
   "Acesso completo ao app",
-  "Economia de R$ 25,00",
-  "Cancele quando quiser",
   "Suporte prioritário no WhatsApp",
 ];
 
@@ -255,83 +188,7 @@ export default function VendasPage() {
         </div>
       </section>
 
-      {/* ── BLOCO 2 — DOR ── */}
-      <section className="-mx-6 bg-gray-50 px-6 py-12">
-        <p className="text-sm font-semibold uppercase tracking-wider text-gray-400">
-          01 — VOCÊ RECONHECE?
-        </p>
 
-        <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-black">
-          Esses sinais são mais comuns do que parecem
-        </h2>
-
-        <div className="mt-6">
-          {DOR_ITEMS.map((text, i) => (
-            <div
-              key={text}
-              className={`flex items-center gap-3 py-3 ${
-                i < DOR_ITEMS.length - 1 ? "border-b border-gray-200" : ""
-              }`}
-            >
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#ff4d8f] text-xs font-bold text-white">
-                ✓
-              </span>
-              <span className="text-sm leading-relaxed text-gray-800">
-                {text}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-6 rounded-xl border border-pink-200 bg-white p-4 text-center">
-          <p className="text-sm font-medium text-gray-800">
-            Se você marcou pelo menos 2, a Mounjá foi feita pra você.
-          </p>
-        </div>
-      </section>
-
-      {/* ── BLOCO 3 — A VIRADA ── */}
-      <section className="py-12">
-        <p className="text-sm font-semibold uppercase tracking-wider text-[#ff4d8f]">
-          02 — A VIRADA
-        </p>
-
-        <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-black">
-          O que muda com a Mounjá no seu bolso
-        </h2>
-
-        <div className="mt-6 flex flex-col gap-4">
-          {VIRADA_CARDS.map((card) => (
-            <div
-              key={card.title}
-              className="rounded-2xl border border-gray-200 p-5 shadow-sm transition hover:shadow-md"
-            >
-              <div
-                className="flex h-12 w-12 items-center justify-center rounded-full"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(to bottom right, #ff4d8f, #b84dff)",
-                }}
-              >
-                <card.Icon className="h-6 w-6 text-white" strokeWidth={2} />
-              </div>
-
-              <span
-                className={`mt-4 inline-block rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider ${card.pillBg} ${card.pillText}`}
-              >
-                {card.pill}
-              </span>
-
-              <h3 className="mt-2 text-lg font-bold text-gray-900">
-                {card.title}
-              </h3>
-              <p className="mt-1 text-sm leading-relaxed text-gray-600">
-                {card.desc}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* ── BLOCO 4 — COMO FUNCIONA ── */}
       <section className="-mx-6 bg-gray-50 px-6 py-12">
