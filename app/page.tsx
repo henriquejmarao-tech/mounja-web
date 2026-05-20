@@ -4,26 +4,19 @@ export default function Home() {
       <main className="flex flex-1 flex-col items-center justify-center text-center">
         {/* Pílula rosa */}
         <span className="mb-6 inline-block rounded-full bg-pink-50 px-4 py-2 text-xs font-bold tracking-wide text-[#ff4d8f]">
-          PARA QUEM USA OZEMPIC, MOUNJARO OU WEGOVY
+          PARA MULHERES QUE USAM OZEMPIC, MOUNJARO OU WEGOVY
         </span>
 
         {/* Headline — LCP element */}
-        <h1 className="mb-4 text-[28px] font-bold leading-tight tracking-tight">
-          <span className="block text-black">O GLP-1 age no seu corpo.</span>
-          <span
-            className="block bg-clip-text text-transparent"
-            style={{
-              backgroundImage: "linear-gradient(to right, #ff4d8f, #b84dff)",
-            }}
-          >
-            Mas sua mente está pronta para emagrecer?
-          </span>
+        <h1 className="mb-4 text-[28px] font-bold leading-tight tracking-tight text-black">
+          Você está usando uma caneta cara demais para acompanhar tudo no
+          improviso.
         </h1>
 
         {/* Subtítulo */}
         <p className="mb-8 max-w-[340px] text-base leading-relaxed text-gray-500">
-          O número que explica por que algumas mulheres respondem ao GLP-1 e
-          outras não.
+          Calcule seu Índice de Constância no Tratamento e descubra onde sua
+          jornada com GLP-1 pode estar ficando desorganizada.
         </p>
 
         {/* CTA */}
@@ -34,14 +27,8 @@ export default function Home() {
             backgroundImage: "linear-gradient(to right, #ff4d8f, #b84dff)",
           }}
         >
-          Calcular meu índice agora
+          Calcular meu índice
         </a>
-
-        {/* Card de credibilidade */}
-        <p className="text-sm leading-snug text-gray-300">
-          📖 Baseado em literatura científica sobre GLP-1 e comportamento
-          alimentar
-        </p>
 
         {/* Rodapé */}
         <footer className="mt-6 space-y-2 text-center text-xs leading-relaxed text-gray-400">

@@ -44,13 +44,14 @@ function calcIndex(): {
   index: number;
   faixa: string;
   cor: string;
+  hasResult: boolean;
 } {
   if (typeof window === "undefined")
-    return { nome: "Amiga", index: 7.0, faixa: "media", cor: "#FF6B00" };
+    return { nome: "", index: 7.0, faixa: "media", cor: "#FF6B00", hasResult: false };
 
   const leadRaw = localStorage.getItem("quiz_lead");
   const lead = leadRaw ? JSON.parse(leadRaw) : { nome: "" };
-  const nome = lead.nome || "Amiga";
+  const nome = lead.nome || "";
 
   const keys = ["quiz_q1", "quiz_q2", "quiz_q3", "quiz_q4", "quiz_q5"];
   const values = keys.map((k) => {
@@ -60,10 +61,11 @@ function calcIndex(): {
 
   const avg =
     Math.round((values.reduce((a, b) => a + b, 0) / values.length) * 10) / 10;
+  const hasResult = keys.some((k) => localStorage.getItem(k)) || Boolean(lead.nome);
 
-  if (avg <= 5.4) return { nome, index: avg, faixa: "baixa", cor: "#FF3B30" };
-  if (avg <= 7.4) return { nome, index: avg, faixa: "media", cor: "#FF6B00" };
-  return { nome, index: avg, faixa: "alta", cor: "#b84dff" };
+  if (avg <= 5.4) return { nome, index: avg, faixa: "baixa", cor: "#FF3B30", hasResult };
+  if (avg <= 7.4) return { nome, index: avg, faixa: "media", cor: "#FF6B00", hasResult };
+  return { nome, index: avg, faixa: "alta", cor: "#b84dff", hasResult };
 }
 
 /* ── Screenshots / Features ── */
@@ -95,23 +97,28 @@ const FEATURES = [
   },
   {
     img: "/screenshots/evolucao.jpeg",
-    pill: "CORPO E MENTE",
     pillBg: "bg-orange-50",
     pillText: "text-orange-600",
     title: "Sua evolução",
-    desc: "Você vê os gráficos do seu corpo e da sua mente, lado a lado.",
+    pill: "CORPO E ROTINA",
+    desc: "Você vê os registros do seu corpo e da sua rotina lado a lado.",
   },
 ];
 
 /* ── Pricing benefits ── */
 
 const MENSAL_BENEFITS = [
-  "Acesso completo ao app",
+  "Check-in diário",
+  "Registro de aplicação",
+  "Diário visual com fotos",
+  "Análise de refeições",
+  "Evolução de peso e rotina",
 ];
 
 const TRIMESTRAL_BENEFITS = [
-  "Acesso completo ao app",
+  "Tudo do mensal",
   "Suporte prioritário no WhatsApp",
+  "Melhor custo-benefício",
 ];
 
 /* ── FAQ ── */
@@ -119,7 +126,7 @@ const TRIMESTRAL_BENEFITS = [
 const FAQ_ITEMS = [
   {
     q: "A Mounjá substitui meu médico?",
-    a: "Não. A Mounjá é uma companheira do seu tratamento, mas não substitui acompanhamento médico. Continue sempre consultando seu profissional de saúde.",
+    a: "Não. A Mounjá organiza seus registros e rotina, mas não prescreve, ajusta ou substitui acompanhamento profissional.",
   },
   {
     q: "Preciso baixar algum app?",
@@ -130,12 +137,12 @@ const FAQ_ITEMS = [
     a: "Imediatamente após o pagamento, você recebe o link de acesso por email e mensagem no WhatsApp.",
   },
   {
-    q: "E se eu não uso Ozempic, mas sim Mounjaro ou Wegovy?",
-    a: "A Mounjá foi feita pra toda a família GLP-1. Funciona pra qualquer medicação dessa classe.",
+    q: "Meus dados estão seguros?",
+    a: "Seus registros ficam protegidos no ambiente da Mounjá e são usados para organizar sua experiência no app. Não vendemos seus dados pessoais.",
   },
   {
     q: "Posso cancelar quando quiser?",
-    a: "Sim. Sem fidelidade, sem multa. Cancele a qualquer momento direto pelo WhatsApp.",
+    a: "Sim. Sem fidelidade.",
   },
 ];
 
@@ -146,7 +153,9 @@ export default function VendasPage() {
   const [openFaq, setOpenFaq] = useState<Set<number>>(new Set());
 
   useEffect(() => {
-    setData(calcIndex());
+    queueMicrotask(() => {
+      setData(calcIndex());
+    });
   }, []);
 
   function toggleFaq(i: number) {
@@ -162,6 +171,10 @@ export default function VendasPage() {
 
   function getHeadline() {
     if (!data) return null;
+    if (!data.nome || !data.hasResult) {
+      return "Seu índice mostra que você está no caminho. O risco é acompanhar tudo no chute.";
+    }
+
     const indexSpan = (
       <span
         className="inline-block text-4xl font-black"
@@ -171,23 +184,10 @@ export default function VendasPage() {
       </span>
     );
 
-    if (data.faixa === "baixa")
-      return (
-        <>
-          {data.nome}, seu índice {indexSpan} mostra algo que muitas mulheres
-          ignoram
-        </>
-      );
-    if (data.faixa === "media")
-      return (
-        <>
-          {data.nome}, seu índice {indexSpan} revela onde está o problema
-        </>
-      );
     return (
       <>
-        {data.nome}, seu índice {indexSpan} mostra que você está pronta — mas
-        algo ainda falta
+        {data.nome}, seu índice {indexSpan} mostra que você está no caminho. O
+        risco é acompanhar tudo no chute.
       </>
     );
   }
@@ -205,9 +205,9 @@ export default function VendasPage() {
         </h1>
 
         <div className="mt-5 border-l-4 border-pink-500 bg-pink-50/30 py-3 pl-4 text-left">
-          <p className="text-base italic text-gray-700">
-            O GLP-1 trata seu corpo. Mas ninguém te ensinou a cuidar da parte
-            que mais importa: a sua mente.
+          <p className="text-base text-gray-700">
+            A Mounjá organiza aplicação, refeições, sintomas, peso e fotos para
+            você enxergar sua evolução sem depender da memória.
           </p>
         </div>
       </section>
@@ -221,12 +221,11 @@ export default function VendasPage() {
         </p>
 
         <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-black">
-          Veja como a Mounjá funciona
+          Em 30 segundos por dia, você registra o que importa.
         </h2>
 
         <p className="mt-2 text-sm text-gray-600">
-          Cada tela foi pensada pra ser usada em segundos, no meio da correria
-          do dia.
+          Sem planilha. Sem culpa. Sem tentar lembrar tudo de cabeça.
         </p>
 
         <div className="mt-8 flex flex-col gap-12">
@@ -259,7 +258,20 @@ export default function VendasPage() {
         </div>
       </section>
 
-      {/* ── BLOCO 5 — PROVA SOCIAL ── */}
+      {/* ── BLOCO 5 — DOR ── */}
+      <section className="py-12">
+        <h2 className="text-2xl font-bold leading-tight tracking-tight text-black">
+          O problema não é só esquecer. É perder clareza.
+        </h2>
+
+        <p className="mt-3 text-base leading-relaxed text-gray-600">
+          Sem acompanhamento, você não sabe o que funcionou, o que piorou,
+          quando aplicou, como se sentiu ou se o progresso apareceu nas fotos.
+          A Mounjá junta tudo no mesmo lugar.
+        </p>
+      </section>
+
+      {/* ── BLOCO 6 — PROVA SOCIAL ── */}
       <section className="py-12">
         <p className="text-sm font-semibold uppercase tracking-wider text-[#ff4d8f]">
           02 — CONSTRUÍDA COM VOCÊ
@@ -293,7 +305,7 @@ export default function VendasPage() {
         </div>
       </section>
 
-      {/* ── BLOCO 6 — PREÇO ── */}
+      {/* ── BLOCO 7 — PREÇO ── */}
       <section id="precos" className="-mx-6 bg-gray-50 px-6 py-12">
         <p className="text-center text-sm font-semibold uppercase tracking-wider text-[#ff4d8f]">
           03 — ESCOLHA SEU PLANO
@@ -400,7 +412,7 @@ export default function VendasPage() {
         </div>
       </section>
 
-      {/* ── BLOCO 7 — GARANTIA ── */}
+      {/* ── BLOCO 8 — GARANTIA ── */}
       <section className="py-12">
         <p className="text-sm font-semibold uppercase tracking-wider text-[#ff4d8f]">
           04 — ZERO RISCO
@@ -414,18 +426,18 @@ export default function VendasPage() {
 
             <div>
               <h3 className="text-lg font-extrabold text-gray-900">
-                Garantia de 14 dias
+                Teste por 14 dias.
               </h3>
               <p className="mt-1 text-sm leading-relaxed text-gray-700">
-                Use a Mounjá por 14 dias. Se não sentir diferença, devolvemos
-                100% do seu dinheiro. Sem perguntas, sem burocracia.
+                Não sentiu diferença na sua rotina? Devolvemos 100%. Sem
+                burocracia.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── BLOCO 8 — FAQ ── */}
+      {/* ── BLOCO 9 — FAQ ── */}
       <section className="-mx-6 bg-gray-50 px-6 py-12">
         <p className="text-sm font-semibold uppercase tracking-wider text-[#ff4d8f]">
           05 — DÚVIDAS COMUNS
@@ -467,7 +479,7 @@ export default function VendasPage() {
         </div>
       </section>
 
-      {/* ── BLOCO 9 — CTA FINAL ── */}
+      {/* ── BLOCO 10 — CTA FINAL ── */}
       <section className="py-16 text-center">
         <h2 className="text-2xl font-bold leading-tight tracking-tight text-gray-900">
           Sua jornada com GLP-1 merece mais do que tentativa e erro.
@@ -475,7 +487,7 @@ export default function VendasPage() {
 
         <p className="mt-4 text-base leading-relaxed text-gray-600">
           Junte-se às mulheres que estão transformando o tratamento em algo
-          gentil consigo mesmas.
+          mais organizado e claro.
         </p>
 
         <a
@@ -487,14 +499,14 @@ export default function VendasPage() {
             backgroundImage: "linear-gradient(to right, #ff4d8f, #b84dff)",
           }}
         >
-          Quero começar agora →
+          Assinar e começar agora
         </a>
 
         <a
           href="#precos"
           className="mt-4 inline-block text-sm text-gray-500 underline"
         >
-          Ver planos novamente
+          Começar meu acompanhamento
         </a>
       </section>
 
@@ -529,8 +541,19 @@ export default function VendasPage() {
           profissional de saúde antes de tomar decisões sobre seu tratamento.
         </p>
         <p className="mt-2 text-xs text-gray-400">
-          © Mounjá 2026 · Todos os direitos reservados
+          © 2026 Mounjá. Todos os direitos reservados.
         </p>
+        <div className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-gray-400">
+          <a href="/politica-de-privacidade" className="underline">
+            Política de Privacidade
+          </a>
+          <a href="/termos-de-uso" className="underline">
+            Termos de Uso
+          </a>
+          <a href="/contato" className="underline">
+            Contato
+          </a>
+        </div>
       </footer>
     </main>
   );

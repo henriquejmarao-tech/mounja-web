@@ -9,9 +9,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Mounjá — Seu índice de prontidão para o GLP-1",
+  title: "Mounjá — Índice de Constância no Tratamento",
   description:
-    "Descubra por que algumas mulheres respondem ao GLP-1 e outras não. Calcule seu índice agora.",
+    "Calcule seu índice e organize sua rotina de acompanhamento com GLP-1.",
 };
 
 export default function RootLayout({

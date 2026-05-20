@@ -4,10 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 const OPTIONS = [
-  "Me lembrar de tudo",
-  "Não me julgar quando eu escorregar",
-  "Mostrar que estou evoluindo",
-  "Comemorar comigo cada conquista",
+  "Lembrar aplicação e registros",
+  "Entender minha alimentação sem culpa",
+  "Ver progresso nas fotos",
+  "Manter constância nos dias difíceis",
 ];
 
 export default function QuizQuestion6() {
@@ -27,7 +27,7 @@ export default function QuizQuestion6() {
       </span>
 
       <h2 className="mb-8 text-2xl font-bold leading-snug tracking-tight text-black">
-        Se a Mounjá fosse sua amiga, o que mais te ajudaria?
+        Qual apoio mais faria diferença hoje?
       </h2>
 
       <div className="flex flex-col gap-3">
